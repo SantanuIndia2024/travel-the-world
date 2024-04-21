@@ -1,0 +1,45 @@
+{
+    "manifest_version": 3,
+    "name": "Travel the World",
+    "version": "1.1.0",
+    "description": "Powers your travel planning experience by calculating the total price of the trip, including flights and hotels within Google Travel.",
+    
+
+    "permissions": ["storage", "tabs","activeTab"],
+    "host_permissions": ["https://www.google.com/travel/*"],
+    
+    "background": {
+      "service_worker": "background.js"
+    },
+    
+    "content_scripts": [
+      {
+        "matches": ["https://www.google.com/travel/*"],
+        "js": ["contentScript.js"],
+        "css": ["styles.css"]
+      }
+    ],
+    
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "assets/bookmark.png",
+          "assets/play.png",
+          "assets/delete.png",
+          "assets/save.png"
+        ],
+        "matches": ["https://*.youtube.com/*"]
+      }
+    ],
+    
+    "action": {
+      "default_icon": {
+        "16": "assets/totalprice16.png",
+        "24": "assets/totalprice24.png",
+        "32": "assets/totalprice32.png"
+      },
+      "default_title": "all url extension",
+      "default_popup": "popup.html"
+    }
+
+}
