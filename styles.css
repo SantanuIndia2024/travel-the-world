@@ -38,3 +38,8 @@
     font-weight: 100;
     padding-right: 0px;
 } */
+
+.makechildvisible * {
+     visibility: visible !important;
+     cursor: pointer !important;
+}  

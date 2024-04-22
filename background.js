@@ -13,16 +13,16 @@
 chrome.runtime.onInstalled.addListener(()=>{
   console.log("crx installed");
   chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
-    if(message.action==="newtab")
+    if(message.from==="popup"&& message.to==="background"&& message.action==="newtab")
     {
       chrome.tabs.create({url:message.url});
     }
-    if(message.action==="getlocalstorage" && message.from==="popup")
-    {
-      chrome.runtime.sendMessage({action:"getlocalstorage",data:message.data,from:"background"},(response)=>{
-        sendResponse(response);
-      })
-    }
+    // if(message.action==="getlocalstorage" && message.from==="popup")
+    // {
+    //   chrome.runtime.sendMessage({action:"getlocalstorage",data:message.data,from:"background"},(response)=>{
+    //     sendResponse(response);
+    //   })
+    // }
     
   })
 });

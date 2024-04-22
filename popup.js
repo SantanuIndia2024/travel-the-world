@@ -1,5 +1,5 @@
 document.getElementById('googletravel').addEventListener('click',(e)=>{
-    chrome.runtime.sendMessage({action:"newtab",url:"https://www.google.com/travel/explore"});
+    chrome.runtime.sendMessage({action:"newtab",from:"popup",to:"background",url:"https://www.google.com/travel/explore"});
 });
 
 document.getElementById('showcheapest').addEventListener('click',(e)=>{

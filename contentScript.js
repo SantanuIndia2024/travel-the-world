@@ -16,8 +16,13 @@ function calculatenewprices()
         {
             exactdates =document.getElementsByClassName('TP4Lpb eoY5cb j0Ppje');
         }
+    //get map points
+    mappoints=document.getElementsByClassName('pnukcf CeoRYc C6zmBb');
+    
+    //iterate through each location
     Array.from(document.querySelectorAll("li.lPyEac.P0ukfb")).map(function name1(params1){
         toLocation = params1.getElementsByClassName('W6bZuc YMlIz')[0].innerText;
+        
         //check if price element present
         ispricedisplayed = params1.getElementsByClassName('Q70fcd')[0];
         unitprice =params1.getElementsByClassName('unitprice')[0];
@@ -124,8 +129,8 @@ function calculatenewprices()
             if(flightprice===0||flightprice===undefined){
                 if (hotelprice===0||hotelprice===undefined)
                 {
-                    total=0;
-                    unitprice=0;
+                    total=9999;
+                    unitprice=999;
                 }
                 else if(hotelprice!==undefined){
                     total= hotelprice*days;
@@ -135,7 +140,7 @@ function calculatenewprices()
             else if(flightprice!==undefined){
                 if (hotelprice==0||hotelprice==undefined)
                 {
-                    total= flightprice*2;
+                    total= flightprice*2+500*days;
                     unitprice=Math.floor(total/days);
                 }
                 else if(hotelprice!==undefined){
@@ -169,7 +174,7 @@ function calculatenewprices()
             //compare previous price and create element
             
             previousPrice=Number(priceBucket[fromLocation+'-'+toLocation+'-'+days+'d']);
-            
+
             if (previousPrice!==undefined && unitprice <previousPrice*.95)
             {
                 unitpriceelem.textContent = '↓ '+unitprice +' /day from '+previousPrice+' /day';
@@ -189,10 +194,51 @@ function calculatenewprices()
             //end of compare
             params1.getElementsByClassName("W6bZuc YMlIz")[0].appendChild(unitpriceelem);
             colorprice= params1.getElementsByClassName('unitprice')[0];
-            
-            if (Number(unitprice)<150){colorprice.style.color='green';}
-            else if (Number(unitprice)<250){colorprice.style.color='orange';}
-            else { colorprice.style.color='red'; }
+
+
+            //color prices
+            if (Number(unitprice)<150){
+                colorprice.style.color='green';
+                Array.from(mappoints).map((e)=>{
+                    if(e.innerText.includes(toLocation))
+                    {
+                        e.getElementsByClassName('byd5Xd')[0].style.background="green";
+                        e.getElementsByClassName('oLD7Od tdMWuf')[0].style.fontSize="medium";
+                        // e.getElementsByClassName('SwQ5Be')[0].style.visibility="visible !important";
+                        // e.getElementsByClassName('SwQ5Be')[0].style.cursor="pointer";
+                        // e.getElementsByClassName('SwQ5Be')[0].style.pointerEvents="auto";
+                        // e.getElementsByClassName('SwQ5Be')[0].classList.add('makechildvisible');
+                        // picture=e.getElementsByClassName('fN3ML SLNXhe')[0];
+                        // z=picture.dataset.src;
+                        // if(z!==undefined)
+                        // {
+                        //     pictureurl='background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7) 11.76%, rgba(0, 0, 0, 0.25) 46.16%, rgba(0, 0, 0, 0) 63.98%), url("'+z+'");';
+                        //     picture.style=pictureurl;
+                        // }
+
+                    }
+                });
+            }
+            else if (Number(unitprice)<250){
+                colorprice.style.color='orange';
+                Array.from(mappoints).map((e)=>{
+                    if(e.innerText.includes(toLocation))
+                    {
+                        e.getElementsByClassName('byd5Xd')[0].style.background="orange";
+                        e.getElementsByClassName('SwQ5Be')[0].style.visibility="hidden";
+                    }
+                });
+            }
+            else { 
+                colorprice.style.color='red';
+                Array.from(mappoints).map((e)=>{
+                    if(e.innerText.includes(toLocation))
+                    {
+                        e.getElementsByClassName('byd5Xd')[0].style.background="red";
+                        e.getElementsByClassName('SwQ5Be')[0].style.visibility="hidden";
+                    }
+                }); 
+            }
             
             params1.getElementsByClassName("W6bZuc YMlIz")[0].appendChild(totalprice);
             //return('day1='+day1 +' day2='+day2+' days='+days+' '+flightprice+' '+hotelprice+' '+total);   
@@ -270,7 +316,7 @@ const flightInterval = setInterval(()=>{
         
 setTimeout(function() {
     clearInterval(flightInterval); // Clear the interval
-}, 300000);
+}, 3600000);
 
 //send Local Storage
 chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
